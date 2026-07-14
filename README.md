@@ -140,22 +140,7 @@ Options:
 
 **Task:** parse the task → gather candidates (terms, symbols, imports, tests) → rank → select exact spans under the line budget → write pack + receipt → optionally verify.
 
-```mermaid
-flowchart TD
-  CLI["coremap CLI"] --> Mode{--task?}
-
-  Mode -->|no| Pack[Pack mode]
-  Pack --> Walk[Walk repo]
-  Walk --> Secrets[Strip secrets]
-  Secrets --> Out1["coremap.md"]
-
-  Mode -->|yes| Task[Task mode]
-  Task --> Walk2[Walk repo]
-  Walk2 --> Pick[Rank + select spans]
-  Pick --> Out2["context.md + receipt.json"]
-  Out2 -->|--verify| Prove[Patch + tests]
-  Prove --> Green[GREEN DELTA]
-```
+![CoreMap architecture](./assets/architecture.jpg)
 
 ---
 
