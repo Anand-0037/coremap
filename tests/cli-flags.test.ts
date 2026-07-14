@@ -33,4 +33,8 @@ describe('CLI flags', () => {
     expect(opts.maxTokens).toBe(1000);
     expect(opts.outFile).toBe('repomap.txt');
   });
+
+  it('supports --version (commander exitOverride)', () => {
+    expect(() => parseCliArgv(['--version'])).toThrow(/0\.1\.\d+/);
+  });
 });

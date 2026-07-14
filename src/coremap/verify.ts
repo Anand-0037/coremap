@@ -143,7 +143,7 @@ async function openaiPatchAttempt(opts: {
   // Lazy-load so pack / offline / oracle paths never pull in the OpenAI SDK
   const { default: OpenAI } = await import('openai');
   const client = new OpenAI();
-  const model = process.env.COREMAP_MODEL ?? 'gpt-4.1-mini';
+  const model = process.env.COREMAP_MODEL ?? 'gpt-4o-mini';
   const response = await client.chat.completions.create({
     model,
     temperature: 0,

@@ -18,7 +18,7 @@ function yn(v: boolean | null | undefined, skipped?: boolean): string {
  * Print baseline-vs-CoreMap table (Full / Compress / CoreMap).
  * Full = everything an agent would otherwise dump from the walked repo.
  * Compress = signature-only baseline (token count only).
- * Full/Compress "Tests passed" = unpatched-repo test run (same baseline).
+ * Full/Compress "Tests (original repo)" = original-repo test run (same baseline).
  */
 export function printReport(receipt: Receipt, extras: ReportExtras): void {
   const verify = receipt.verify;
@@ -58,8 +58,8 @@ export function printReport(receipt: Receipt, extras: ReportExtras): void {
       verify ? yn(verify.patchProduced, coreSkipped && !oracle) : '—',
     ],
     [
-      // Unpatched-repo tests (shared baseline for Full + Compress columns)
-      'Tests (unpatched)',
+      // Original-repo tests (shared baseline for Full + Compress columns)
+      'Tests (original repo)',
       baselineLabel,
       baselineLabel,
       verify ? yn(verify.testsPassed, verify.testsPassed == null) : '—',
@@ -86,7 +86,7 @@ export function printReport(receipt: Receipt, extras: ReportExtras): void {
     'note: Full = all walked text an agent might dump; Compress = signatures only;',
   );
   console.log(
-    '      Tests (unpatched) = same baseline run on the unbroken/unpatched repo copy.',
+    '      Tests (original repo) = same baseline run on the original repo copy.',
   );
   console.log('');
 

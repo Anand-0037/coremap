@@ -3,12 +3,12 @@
 Pack your repository into one AI-friendly file — or pass a task and keep only the lines that matter.
 
 ```bash
-npx coremap .
+npx @0xanand/coremap .
 ```
 
 Writes `coremap.md`: directory tree, source files, and a short summary. Secrets are excluded.
 
-[![npm](https://img.shields.io/npm/v/coremap.svg)](https://www.npmjs.com/package/coremap)
+[![npm](https://img.shields.io/npm/v/@0xanand/coremap.svg)](https://www.npmjs.com/package/@0xanand/coremap)
 [![Node.js](https://img.shields.io/node/v/coremap.svg)](https://nodejs.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
@@ -30,13 +30,13 @@ Pack is the everyday path. Task mode selects a small evidence set and can verify
 **No install** (recommended):
 
 ```bash
-npx coremap .
+npx @0xanand/coremap .
 ```
 
 **Global:**
 
 ```bash
-npm install -g coremap
+npm install -g @0xanand/coremap
 coremap .
 ```
 
@@ -118,6 +118,7 @@ Options:
   --max-tokens <n>            pack mode whole-file token budget (default: 50000)
   --out-file <name>           pack mode output filename (default: coremap.md)
   --out-dir <dir>             output directory (default: .)
+  -V, --version               output version number
   -h, --help                  display help
 ```
 
@@ -139,10 +140,21 @@ Options:
 
 **Task:** parse the task → gather candidates (terms, symbols, imports, tests) → rank → select exact spans under the line budget → write pack + receipt → optionally verify.
 
-```
-repo [+ --task]
-  → walker
-  → pack  OR  candidates → rank → select → receipt → [verify]
+```mermaid
+flowchart TD
+  CLI["coremap CLI"] --> Mode{--task?}
+
+  Mode -->|no| Pack[Pack mode]
+  Pack --> Walk[Walk repo]
+  Walk --> Secrets[Strip secrets]
+  Secrets --> Out1["coremap.md"]
+
+  Mode -->|yes| Task[Task mode]
+  Task --> Walk2[Walk repo]
+  Walk2 --> Pick[Rank + select spans]
+  Pick --> Out2["context.md + receipt.json"]
+  Out2 -->|--verify| Prove[Patch + tests]
+  Prove --> Green[GREEN DELTA]
 ```
 
 ---
@@ -154,7 +166,7 @@ src/
   cli.ts              # CLI entry
   index.ts            # library exports
   coremap/            # pack, select, receipt, verify, …
-bin/coremap           # npm bin wrapper
+bin/coremap           # npm bin wrapper (optional; published bin is dist/cli.js)
 fixtures/             # mini-repo + tax-bug eval fixture
 evals/tax-bug/        # issue text + ground-truth patch
 specs/coremap/        # product spec / plan / tasks

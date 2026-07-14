@@ -1,6 +1,6 @@
 {
-  "name": "coremap",
-  "version": "0.1.0",
+  "name": "@0xanand/coremap",
+  "version": "0.1.2",
   "description": "Pack a repo into one AI-friendly file — or pass --task to keep only the lines that matter, with a verification receipt.",
   "type": "module",
   "main": "./dist/index.js",
@@ -8,10 +8,9 @@
     ".": "./dist/index.js"
   },
   "bin": {
-    "coremap": "./bin/coremap"
+    "coremap": "./dist/cli.js"
   },
   "files": [
-    "bin",
     "dist",
     "LICENSE",
     "README.md"
@@ -74,8 +73,5 @@
     "tsx": "^4.19.3",
     "typescript": "^5.8.3",
     "vitest": "^3.1.1"
-  },
-  "directories": {
-    "bin": "./bin"
   }
 }

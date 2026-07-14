@@ -1,9 +1,20 @@
 #!/usr/bin/env node
+import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { Command } from 'commander';
 import { runCoreMap } from './coremap/run.js';
 import type { CliOptions } from './coremap/types.js';
+
+function readPackageVersion(): string {
+  const pkgPath = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'package.json');
+  try {
+    const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8')) as { version?: string };
+    return typeof pkg.version === 'string' && pkg.version.length > 0 ? pkg.version : '0.0.0';
+  } catch {
+    return '0.0.0';
+  }
+}
 
 export function configureProgram(program: Command): Command {
   return program
@@ -11,6 +22,7 @@ export function configureProgram(program: Command): Command {
     .description(
       'CoreMap — pack a repo into one file, or pass --task for smallest sufficient evidence + verification receipt',
     )
+    .version(readPackageVersion())
     .argument('[path]', 'repository path', '.')
     .option('--task <text>', 'issue or change request (enables task mode: spans + receipt)')
     .option('--budget-lines <n>', 'task mode: max source lines in the context pack', '200')
@@ -85,10 +97,15 @@ export async function runCli(argv: string[] = process.argv): Promise<void> {
 }
 
 function isDirectEntry(): boolean {
-  return (
-    typeof process.argv[1] === 'string' &&
-    path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)
-  );
+  if (typeof process.argv[1] !== 'string') return false;
+  try {
+    return (
+      fs.realpathSync(process.argv[1]) ===
+      fs.realpathSync(fileURLToPath(import.meta.url))
+    );
+  } catch {
+    return path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+  }
 }
 
 if (isDirectEntry()) {
