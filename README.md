@@ -80,10 +80,12 @@ Context tokens             432        81       192
 HitFile                      —         —      1.00
 HitRegion≈                   —         —      0.71
 Patch produced              no        no       yes
-Tests (unpatched)           no        no       yes
+Tests (original repo)        no        no       yes
 
 coremap: GREEN DELTA  tokens 432→192  |  HitFile=1.00  |  HitRegion≈0.71  |  tests=PASS
 ```
+
+`Tests (original repo)` is the same baseline for the Full and Compress columns; CoreMap applies the demo oracle patch only in an isolated temporary copy.
 
 ---
 

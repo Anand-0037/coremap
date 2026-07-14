@@ -1,0 +1,9 @@
+calculateTotal ignores taxRate — cart totals are wrong under tax
+
+When checking out a cart, calculateTotal(items, taxRate) returns the raw subtotal
+and never applies tax. Customers with taxRate > 0 are undercharged.
+
+Expected: calculateTotal([40, 60], 0.1) === 110 (via addTax).
+Actual: returns 100.
+
+Please fix calculateTotal in src/pricing.ts so tax is applied.

@@ -1,0 +1,13 @@
+{
+  "id": "tax-bug",
+  "title": "calculateTotal ignores taxRate",
+  "repo": "fixtures/eval-tax-bug",
+  "issue": "evals/tax-bug/issue.txt",
+  "groundTruthPatch": "evals/tax-bug/ground-truth.patch",
+  "fixingCommit": "pinned-local-eval-001",
+  "changedFiles": ["src/pricing.ts"],
+  "changedRegions": [
+    { "path": "src/pricing.ts", "lineStart": 9, "lineEnd": 14 }
+  ],
+  "notes": "Ground-truth patch is NEVER walked or fed into selection — only used for HitFile/HitRegion and optional oracle verify."
+}

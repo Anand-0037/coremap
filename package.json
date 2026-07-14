@@ -1,0 +1,81 @@
+{
+  "name": "coremap",
+  "version": "0.1.0",
+  "description": "Pack a repo into one AI-friendly file — or pass --task to keep only the lines that matter, with a verification receipt.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "bin": {
+    "coremap": "./bin/coremap"
+  },
+  "files": [
+    "bin",
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json && node -e \"require('fs').chmodSync('dist/cli.js',0o755)\"",
+    "dev": "tsx src/cli.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "tsc -p tsconfig.json --noEmit",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run build && npm test",
+    "pack:npm": "npm pack",
+    "coremap": "tsx src/cli.ts",
+    "pack": "tsx src/cli.ts . --out-file repomap.txt --max-tokens 200000 --out-dir .",
+    "pack:md": "tsx src/cli.ts . --out-file coremap.md --max-tokens 200000 --out-dir .",
+    "demo": "tsx src/cli.ts ./fixtures/eval-tax-bug --task \"$(cat evals/tax-bug/issue.txt)\" --budget-lines 25 --ground-truth ./evals/tax-bug/ground-truth.patch --verify --no-llm --out-dir /tmp/coremap-demo"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "coremap",
+    "cli",
+    "llm",
+    "context",
+    "coding-agents",
+    "code-search",
+    "evals",
+    "developer-tools",
+    "typescript",
+    "openai",
+    "codex"
+  ],
+  "license": "MIT",
+  "author": "Anand Vashishtha",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Anand-0037/coremap.git"
+  },
+  "homepage": "https://github.com/Anand-0037/coremap#readme",
+  "bugs": {
+    "url": "https://github.com/Anand-0037/coremap/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "commander": "^13.1.0",
+    "ignore": "^7.0.4",
+    "js-tiktoken": "^1.0.19",
+    "tree-sitter-wasms": "^0.1.13",
+    "web-tree-sitter": "^0.25.10"
+  },
+  "optionalDependencies": {
+    "openai": "^4.96.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.1",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.1"
+  },
+  "directories": {
+    "bin": "./bin"
+  }
+}

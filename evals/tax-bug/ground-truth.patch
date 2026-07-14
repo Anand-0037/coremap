@@ -1,0 +1,11 @@
+--- a/src/pricing.ts
++++ b/src/pricing.ts
+@@ -9,8 +9,7 @@
+ export function calculateTotal(items: number[], taxRate: number): number {
+   const subtotal = items.reduce((sum, n) => sum + n, 0);
+-  // BUG: taxRate is ignored — should call addTax(subtotal, taxRate)
+-  return subtotal;
++  return addTax(subtotal, taxRate);
+ }
+ 
+ export function formatMoney(amount: number): string {
